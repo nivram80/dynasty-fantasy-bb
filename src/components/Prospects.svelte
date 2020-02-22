@@ -1,22 +1,32 @@
 <script>
-  import { onMount } from "svelte";
-  // import firebase from 'firebase/app'
-  // import { prospects } from "../data/prospects";
+  import { onMount } from 'svelte';
+  import PlayerAdd from './PlayerAdd.svelte';
 
   let players = [];
+  let showAddPlayer = false;
 
-  onMount(() => {
+  onMount(() => getPlayers());
+
+  $: if (showAddPlayer) getPlayers();
+
+  const getPlayers = () => {
+    console.log('getting players...');
     db.collection('players').get()
       .then((snapshot) => {
         players = snapshot.docs.map(doc => doc.data());
+        sortPlayers('mlb');
       });
-  });
+  }
+
+  const onClick = () => {
+    showAddPlayer = true;
+  }
 
   const rankingAve = rankings => {
     let rnks = [];
-    if (rankings.mlb !== 9999) rnks.push(rankings.mlb);
-    if (rankings.baseballAmerica !== 9999) rnks.push(rankings.baseballAmerica);
-    if (rankings.baseballProspectus !== 9999) rnks.push(rankings.baseballProspectus);
+    if (rankings.mlb !== 0) rnks.push(rankings.mlb);
+    if (rankings.baseballAmerica !== 0) rnks.push(rankings.baseballAmerica);
+    if (rankings.baseballProspectus !== 0) rnks.push(rankings.baseballProspectus);
     return Math.floor((rnks.reduce((a, b) => a + b, 0)) / rnks.length);
   }
 
@@ -25,7 +35,10 @@
   }
 </script>
 
-<h3>Top 100 Available Prospects</h3>
+<header>
+  <h3>Top 100 Available Prospects</h3>
+  <div class="action-icon" on:click={onClick}>&plus;</div>
+</header>
 
 <table class="player-list">
   <thead>
@@ -47,19 +60,31 @@
         <td class="small-cell">{player.team}</td>
         <th class="spacer"></th>
         <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
-        <td class="small-cell blue">{player.rankings.mlb === 9999 ? '--' : player.rankings.mlb}</td>
-        <td class="small-cell red">{player.rankings.baseballAmerica === 9999 ? '--' : player.rankings.baseballAmerica}</td>
-        <td class="small-cell green">{player.rankings.baseballProspectus === 9999 ? '--' : player.rankings.baseballProspectus}</td>
+        <td class="small-cell blue">{player.rankings.mlb === 0 ? '--' : player.rankings.mlb}</td>
+        <td class="small-cell red">{player.rankings.baseballAmerica === 0 ? '--' : player.rankings.baseballAmerica}</td>
+        <td class="small-cell green">{player.rankings.baseballProspectus === 0 ? '--' : player.rankings.baseballProspectus}</td>
         <th class="small-cell">{rankingAve(player.rankings)}</th>
       </tr>
     {/each}
   </tbody>
 </table>
 
+{#if showAddPlayer}
+  <PlayerAdd on:cancel={() => showAddPlayer = false} />
+{/if}
+
 <style>
-  h3 {
-    margin: 0;
-    padding: 0;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 354px;
+  }
+
+  .action-icon {
+    font-size: 24px;
+    padding-bottom: 10px;
+    cursor: pointer;
   }
 
   table {
