@@ -24,6 +24,7 @@
       mlb: 0,
       baseballAmerica: 0,
       baseballProspectus: 0,
+      fanGraphs: 0,
     },
   };
 
@@ -173,6 +174,14 @@
           value={player.rankings.baseballProspectus}
           size="small"
           on:input={event => updateRanking(event, 'baseballProspectus')} />
+
+        <InputText
+          label="FG"
+          type="number"
+          fieldName="fanGraphs"
+          value={player.rankings.fanGraphs}
+          size="small"
+          on:input={event => updateRanking(event, 'fanGraphs')} />
       </div>
     </div>
   {/if}

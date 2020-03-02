@@ -81,6 +81,11 @@
           on:click={() => sortPlayers('baseballProspectus')}>
           BP
         </th>
+        <th
+          class="small-cell sort"
+          on:click={() => sortPlayers('fanGraphs')}>
+          FG
+        </th>
         <!-- <th class="small-cell">AVE</th> -->
       </tr>
     </thead>
@@ -91,14 +96,17 @@
           <td class="small-cell">{player.team}</td>
           <td class="spacer" />
           <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
-          <td class="small-cell blue">
+          <td class="small-cell blue" alt="MLB Pipeline Top 100">
             {player.rankings.mlb === 0 ? '--' : player.rankings.mlb}
           </td>
           <td class="small-cell red">
             {player.rankings.baseballAmerica === 0 ? '--' : player.rankings.baseballAmerica}
           </td>
-          <td class="small-cell green">
+          <td class="small-cell orange">
             {player.rankings.baseballProspectus === 0 ? '--' : player.rankings.baseballProspectus}
+          </td>
+          <td class="small-cell green">
+            {player.rankings.fanGraphs === 0 ? '--' : player.rankings.fanGraphs}
           </td>
           <!-- <td class="small-cell">{rankingAve(player.rankings)}</td> -->
           <td class="small-cell action-icon" on:click={displayEditForm(player)}>

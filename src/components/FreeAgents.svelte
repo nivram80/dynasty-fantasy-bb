@@ -43,7 +43,7 @@
     </div>
   </header>
 
-  <DividerLabel label="LEFT FIELDERS" />
+  <DividerLabel label="OUTFIELDERS" />
   <table class="player-list">
     <thead>
       <tr>

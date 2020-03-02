@@ -33,7 +33,7 @@
 	}
 
 	:global(.page-column.large) {
-		width: 350px;
+		width: 390px;
 	}
 
 	:global(.page-column.small) {
@@ -150,6 +150,10 @@
   :global(.green) {
     background: rgba(0, 128, 0, 0.15);
   }
+
+	:global(.orange) {
+		background: rgba(255, 165, 0, 0.15);
+	}
 
   :global(.sort) {
     cursor: pointer;
