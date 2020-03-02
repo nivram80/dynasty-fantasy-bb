@@ -4,12 +4,13 @@
   import PlayerEdit from "./PlayerEdit.svelte";
   import IconPlus from "./IconPlus.svelte";
   import IconEdit from "./IconEdit.svelte";
+  import DividerLabel from "./DividerLabel.svelte";
 
   let players = [];
-  let unsubscribe;
   let selectedPlayer = null;
   let showAddPlayer = false;
   let showEditPlayer = false;
+  let unsubscribe;
 
   onMount(() => getPlayers());
 
@@ -22,7 +23,7 @@
 
   const getPlayers = () => {
     unsubscribe = db.collection("players")
-      .where("prospect", '==', true)
+      .where('prospect', '==', false)
       .where('available', '==', true)
       .onSnapshot(snapshot => {
         players = snapshot.docs.map(doc => {
@@ -30,39 +31,19 @@
           player.id = doc.id;
           return player;
         });
-        sortPlayers("mlb");
       });
-  };
-
-  // const rankingAve = rankings => {
-  //   let rnks = [];
-  //   if (rankings.mlb !== 0) rnks.push(rankings.mlb);
-  //   if (rankings.baseballAmerica !== 0) rnks.push(rankings.baseballAmerica);
-  //   if (rankings.baseballProspectus !== 0)
-  //     rnks.push(rankings.baseballProspectus);
-  //   return Math.floor(rnks.reduce((a, b) => a + b, 0) / rnks.length);
-  // };
-
-  const sortPlayers = column => {
-    // Based on https://stackoverflow.com/a/29829370.
-    players = players.sort((a, b) => {
-      return (
-        (a.rankings[column] === 0) - (b.rankings[column] === 0) ||
-        +(a.rankings[column] > b.rankings[column]) ||
-        -(a.rankings[column] < b.rankings[column])
-      );
-    });
   };
 </script>
 
-<section class="page-column large">
+<section class="page-column small">
   <header>
-    <h3>Top 100 Available Prospects</h3>
+    <h3>Free Agent Watch</h3>
     <div class="action-icon" on:click={() => (showAddPlayer = true)}>
       <IconPlus />
     </div>
   </header>
 
+  <DividerLabel label="LEFT FIELDERS" />
   <table class="player-list">
     <thead>
       <tr>
@@ -70,18 +51,6 @@
         <th class="small-cell">Team</th>
         <th class="spacer" />
         <th class="text-left medium-cell">Name</th>
-        <th class="small-cell sort" on:click={() => sortPlayers('mlb')}>MLB</th>
-        <th
-          class="small-cell sort"
-          on:click={() => sortPlayers('baseballAmerica')}>
-          BA
-        </th>
-        <th
-          class="small-cell sort"
-          on:click={() => sortPlayers('baseballProspectus')}>
-          BP
-        </th>
-        <!-- <th class="small-cell">AVE</th> -->
       </tr>
     </thead>
     <tbody>
@@ -91,16 +60,6 @@
           <td class="small-cell">{player.team}</td>
           <td class="spacer" />
           <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
-          <td class="small-cell blue">
-            {player.rankings.mlb === 0 ? '--' : player.rankings.mlb}
-          </td>
-          <td class="small-cell red">
-            {player.rankings.baseballAmerica === 0 ? '--' : player.rankings.baseballAmerica}
-          </td>
-          <td class="small-cell green">
-            {player.rankings.baseballProspectus === 0 ? '--' : player.rankings.baseballProspectus}
-          </td>
-          <!-- <td class="small-cell">{rankingAve(player.rankings)}</td> -->
           <td class="small-cell action-icon" on:click={displayEditForm(player)}>
             <IconEdit />
           </td>
@@ -111,7 +70,7 @@
 </section>
 
 {#if showAddPlayer}
-  <PlayerAdd prospect on:cancel={() => (showAddPlayer = false)} />
+  <PlayerAdd on:cancel={() => (showAddPlayer = false)} />
 {/if}
 
 {#if showEditPlayer}

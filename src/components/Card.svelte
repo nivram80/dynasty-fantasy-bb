@@ -10,4 +10,8 @@
     background: #fff;
     border-radius: 4px;
   }
+
+  :global(h3) {
+    text-align: center;
+  }
 </style>

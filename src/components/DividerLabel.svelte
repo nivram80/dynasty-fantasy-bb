@@ -1,9 +1,12 @@
 <script>
   export let label = '';
+  export let line = false;
 </script>
 
-<div class="divider-label">
-  <div class="line" />
+<div class="divider-label" class:left={!line}>
+  {#if line}
+    <div class="line" />
+  {/if}
   <label class="label">{label}</label>
 </div>
 
@@ -12,6 +15,10 @@
     height: 20px;
     margin: 4px 0;
     text-align: center;
+  }
+
+  .left {
+    text-align: left;
   }
 
   .divider-label .line {
@@ -29,5 +36,9 @@
     display: inline-block;
     padding: 0 10px;
     background-color: #fff;
+  }
+
+  .divider-label.left .label {
+    padding-left: 0;
   }
 </style>
