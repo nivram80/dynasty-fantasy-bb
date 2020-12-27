@@ -1,14 +1,13 @@
 <script>
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
-  import { backOut } from 'svelte/easing';
   import InputText from './InputText.svelte';
   import Checkbox from './Checkbox.svelte';
   import Button from './Button.svelte';
   import DividerLabel from './DividerLabel.svelte';
 
   export let isEdit = false;
-  export let prospect;
+  export let prospect = false;
   export let player = {
     fname: '',
     lname: '',
@@ -156,7 +155,6 @@
           fieldName="mlb"
           value={player.rankings.mlb}
           size="small"
-          autofocus
           on:input={event => updateRanking(event, 'mlb')} />
 
         <InputText

@@ -30,7 +30,7 @@
           player.id = doc.id;
           return player;
         });
-        sortPlayers("mlb");
+        sortPlayers("baseballAmerica");
       });
   };
 

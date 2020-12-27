@@ -1,25 +1,25 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import PlayerAdd from "./PlayerAdd.svelte";
-  import PlayerEdit from "./PlayerEdit.svelte";
   import IconPlus from "./IconPlus.svelte";
-  import IconEdit from "./IconEdit.svelte";
-  import DividerLabel from "./DividerLabel.svelte";
+  import FreeAgentList from "./FreeAgentList.svelte";
+  import PlayerAdd from "./PlayerAdd.svelte";
 
+  let catchers = [];
+  let firstBasemen = [];
+  let secondBasemen = [];
+  let thirdBasemen = [];
+  let shortstops = [];
+  let outfielders = [];
+  let startingPitchers = [];
+  let reliefPitchers = [];
+  
   let players = [];
-  let selectedPlayer = null;
   let showAddPlayer = false;
-  let showEditPlayer = false;
   let unsubscribe;
 
   onMount(() => getPlayers());
 
   onDestroy(() => unsubscribe());
-
-  const displayEditForm = player => {
-    selectedPlayer = player;
-    showEditPlayer = true;
-  };
 
   const getPlayers = () => {
     unsubscribe = db.collection("players")
@@ -31,8 +31,43 @@
           player.id = doc.id;
           return player;
         });
+        organizePlayers(players);
       });
   };
+
+  const organizePlayers = (players) => {
+    players.forEach((p) => {
+      switch (p.position) {
+        case 'C':
+          catchers = [...catchers, p];
+          break;
+        case '1B':
+          firstBasemen = [...firstBasemen, p];
+          break;
+        case '2B':
+          secondBasemen = [...secondBasemen, p];
+          break;
+        case '3B':
+          thirdBasemen = [...thirdBasemen, p];
+          break;
+        case 'SS':
+          shortstops = [...shortstops, p];
+          break;
+        case 'OF':
+        case 'LF':
+        case 'CF':
+        case 'RF':
+          outfielders = [...outfielders, p];
+          break;
+        case 'SP':
+          startingPitchers = [...startingPitchers, p];
+          break;
+        case 'RP':
+          reliefPitchers = [...reliefPitchers, p];
+          break;
+      }
+    });
+  }
 </script>
 
 <section class="page-column small">
@@ -43,38 +78,16 @@
     </div>
   </header>
 
-  <DividerLabel label="OUTFIELDERS" />
-  <table class="player-list">
-    <thead>
-      <tr>
-        <th class="small-cell">Pos</th>
-        <th class="small-cell">Team</th>
-        <th class="spacer" />
-        <th class="text-left medium-cell">Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each players as player}
-        <tr class="player" class:bold={player.watchlist}>
-          <td class="small-cell">{player.position}</td>
-          <td class="small-cell">{player.team}</td>
-          <td class="spacer" />
-          <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
-          <td class="small-cell action-icon" on:click={displayEditForm(player)}>
-            <IconEdit />
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
+  <FreeAgentList players={catchers} label="CATCHERS" />
+  <FreeAgentList players={firstBasemen} label="FIRST BASEMEN" />
+  <FreeAgentList players={secondBasemen} label="SECOND BASEMEN" />
+  <FreeAgentList players={thirdBasemen} label="THIRD BASEMEN" />
+  <FreeAgentList players={shortstops} label="SHORTSTOPS" />
+  <FreeAgentList players={outfielders} label="OUTFIELDERS" />
+  <FreeAgentList players={startingPitchers} label="STARTING PITCHERS" />
+  <FreeAgentList players={reliefPitchers} label="RELIEF PITCHERS" />
 </section>
 
 {#if showAddPlayer}
   <PlayerAdd on:cancel={() => (showAddPlayer = false)} />
-{/if}
-
-{#if showEditPlayer}
-  <PlayerEdit
-    player={selectedPlayer}
-    on:cancel={() => (showEditPlayer = false)} />
 {/if}
