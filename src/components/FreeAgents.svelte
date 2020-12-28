@@ -134,7 +134,7 @@
     unsubscribeStartingPitchers = db.collection("players")
       .where('prospect', '==', false)
       .where('available', '==', true)
-      .where('position', 'array-contains', 'SP')
+      .where('position', 'array-contains-any', ['SP', 'RHP', 'LHP', 'P'])
       .onSnapshot(snapshot => {
         players['startingPitchers'] = snapshot.docs.map(doc => {
           let player = doc.data();

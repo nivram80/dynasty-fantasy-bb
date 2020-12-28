@@ -13,5 +13,6 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.25);
+    z-index: 2;
   }
 </style>

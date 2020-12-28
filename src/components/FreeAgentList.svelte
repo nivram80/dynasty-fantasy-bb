@@ -19,7 +19,7 @@
 <table class="player-list">
   <thead>
     <tr>
-      <th class="small-cell">Pos</th>
+      <th class="small-cell position">Pos</th>
       <th class="small-cell">Team</th>
       <th class="spacer" />
       <th class="text-left medium-cell">Name</th>
@@ -28,7 +28,7 @@
   <tbody>
     {#each players as player}
       <tr class="player" class:bold={player.watchlist}>
-        <td class="small-cell">{player.position.join()}</td>
+        <td class="small-cell position">{player.position.join()}</td>
         <td class="small-cell">{player.team}</td>
         <td class="spacer" />
         <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
@@ -49,5 +49,9 @@
 <style>
   .player-list {
     margin-bottom: 20px;
+  }
+
+  .small-cell.position {
+    width: 50px;
   }
 </style>

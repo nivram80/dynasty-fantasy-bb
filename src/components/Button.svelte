@@ -46,6 +46,16 @@
 	.secondary:hover {
 		background-color: #eee;
   }
+
+  .danger {
+		border: 1px solid transparent;
+    background-color: transparent;
+    color: rgb(139, 0, 0);
+  }
+
+  .danger:hover {
+    background-color: rgb(139, 0, 0, 0.2);
+  }
   
   .btn:last-child {
 		margin-bottom: 0;

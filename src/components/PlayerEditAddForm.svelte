@@ -44,6 +44,18 @@
         })
     }
   }
+  
+  const deletePlayer = (player) => {
+    if (confirm(`Are you sure you want to delete ${player.fname} ${player.lname}?`)) {
+      db.collection('players').doc(player.id).delete()
+        .then(() => {
+          dispatch('cancel');
+        })
+        .catch((err) => {
+          console.log('Error: ', err);
+        })
+    }
+  }
 
   const editPlayer = () => {
     if (!Array.isArray(player.position)) player.position = player.position.split(',');
@@ -192,5 +204,6 @@
   <div class="action-buttons">
     <Button type="secondary" on:click={() => dispatch('cancel')}>Cancel</Button>
     <Button on:click={isEdit ? editPlayer : createPlayer}>Save</Button>
+    <Button type="danger" on:click={() => deletePlayer(player)}>Delete</Button>
   </div>
 </div>

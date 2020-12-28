@@ -40,7 +40,7 @@
 	}
 
 	:global(.page-column.small) {
-		width: 245px;
+		width: 270px;
 	}
 
 	:global(.center) {
