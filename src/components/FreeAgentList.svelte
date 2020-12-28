@@ -28,7 +28,7 @@
   <tbody>
     {#each players as player}
       <tr class="player" class:bold={player.watchlist}>
-        <td class="small-cell">{player.position}</td>
+        <td class="small-cell">{player.position.join()}</td>
         <td class="small-cell">{player.team}</td>
         <td class="spacer" />
         <td class="text-left medium-cell">{player.lname}, {player.fname}</td>

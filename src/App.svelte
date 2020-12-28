@@ -1,12 +1,15 @@
 <script>
 	import Prospects from './components/Prospects.svelte';
-	import FreeAgents from './components/FreeAgents.svelte';
+  import FreeAgents from './components/FreeAgents.svelte';
+  import SelectStyles from './components/SelectStyles.svelte';
 </script>
 
 <main>
 	<Prospects />
 	<FreeAgents />
 </main>
+
+<SelectStyles />
 
 <style>
 	:global(body) {
@@ -50,7 +53,7 @@
 		font-size: 10px;
 	}
 
-	:global(select, textarea) {
+	:global(textarea) {
 		font-family: inherit;
 		font-size: inherit;
 		box-sizing: border-box;

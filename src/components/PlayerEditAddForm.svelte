@@ -5,6 +5,7 @@
   import Checkbox from './Checkbox.svelte';
   import Button from './Button.svelte';
   import DividerLabel from './DividerLabel.svelte';
+  import { teams } from '../data/teams';
 
   export let isEdit = false;
   export let prospect = false;
@@ -32,6 +33,7 @@
   let hasBeenChanged = false;
 
   const createPlayer = () => {
+    player.position = player.position.split(',');
     if (hasBeenChanged) {
       db.collection('players').add(player)
         .then(() => {
@@ -44,6 +46,7 @@
   }
 
   const editPlayer = () => {
+    if (!Array.isArray(player.position)) player.position = player.position.split(',');
     if (hasBeenChanged) {
       db.collection('players').doc(player.id).set(player)
         .then(() => {
@@ -93,12 +96,14 @@
       size="medium"
       on:input={event => updatePlayer(event, 'position')} />
 
-    <InputText
-      label="Team"
-      fieldName="team"
-      value={player.team}
-      size="medium"
-      on:input={event => updatePlayer(event, 'team')} />
+    <div class="input-container">
+      <label class="label" for="team">Team</label>
+      <select class="select medium" bind:value={player.team} on:change={() => hasBeenChanged = true} id="team">
+        {#each teams as team}
+          <option value={team}>{team}</option>
+        {/each}
+      </select>
+    </div>
   </div>
 
   <div class="form-row">
