@@ -43,6 +43,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains', 'C')
       .onSnapshot(snapshot => {
         players['catchers'] = snapshot.docs.map(doc => {
@@ -58,6 +59,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains', '1B')
       .onSnapshot(snapshot => {
         players['firstBasemen'] = snapshot.docs.map(doc => {
@@ -73,6 +75,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains', '2B')
       .onSnapshot(snapshot => {
         players['secondBasemen'] = snapshot.docs.map(doc => {
@@ -88,6 +91,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains', '3B')
       .onSnapshot(snapshot => {
         players['thirdBasemen'] = snapshot.docs.map(doc => {
@@ -103,6 +107,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains', 'SS')
       .onSnapshot(snapshot => {
         players['shortstops'] = snapshot.docs.map(doc => {
@@ -118,6 +123,7 @@
       .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
+      .where('dropping', '==', false)
       .where('position', 'array-contains-any', ['OF', 'LF', 'CF', 'RF'])
       .onSnapshot(snapshot => {
         players['outfielders'] = snapshot.docs.map(doc => {
