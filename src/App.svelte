@@ -2,11 +2,15 @@
 	import Prospects from './components/Prospects.svelte';
   import FreeAgents from './components/FreeAgents.svelte';
   import SelectStyles from './components/SelectStyles.svelte';
+  import KeepersPosition from './components/KeepersPosition.svelte';
+  import KeepersPitchers from './components/KeepersPitchers.svelte';
 </script>
 
 <main>
 	<Prospects />
-	<FreeAgents />
+  <FreeAgents />
+  <KeepersPosition />
+  <KeepersPitchers />
 </main>
 
 <SelectStyles />

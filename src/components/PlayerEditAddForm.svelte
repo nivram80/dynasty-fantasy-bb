@@ -18,6 +18,7 @@
     available: true,
     prospect: prospect,
     watchlist: false,
+    dropping: false,
     inCollege: false,
     inHighSchool: false,
     rankings: {
@@ -132,7 +133,6 @@
       on:input={event => updatePlayer(event, 'available')} />
   </div>
 
-
   <div class="form-row">
     <Checkbox 
       label="Prospect"
@@ -140,11 +140,19 @@
       fieldName="prospect"
       on:input={event => updatePlayer(event, 'prospect')} />
 
-    <Checkbox 
-      label="Watchlist"
-      checked={player.watchlist}
-      fieldName="watchlist"
-      on:input={event => updatePlayer(event, 'watchlist')} />
+    {#if player.own}
+      <Checkbox 
+        label="Dropping"
+        checked={player.dropping}
+        fieldName="dropping"
+        on:input={event => updatePlayer(event, 'dropping')} />
+    {:else}
+      <Checkbox 
+        label="Watchlist"
+        checked={player.watchlist}
+        fieldName="watchlist"
+        on:input={event => updatePlayer(event, 'watchlist')} />
+    {/if}
   </div>
 
   {#if player.prospect}
