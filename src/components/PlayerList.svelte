@@ -31,7 +31,10 @@
         <td class="small-cell position">{player.position.join()}</td>
         <td class="small-cell">{player.team}</td>
         <td class="spacer" />
-        <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
+        <td class="text-left medium-cell">
+          {player.lname}, {player.fname}
+          {#if player.prospect}*{/if}
+        </td>
         <td class="small-cell action-icon" on:click={displayEditForm(player)}>
           <IconEdit />
         </td>

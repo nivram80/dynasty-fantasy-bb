@@ -28,7 +28,6 @@
 
   const getStartingPitchers = () => {
     unsubscribeStartingPitchers = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -44,7 +43,6 @@
 
   const getReliefPitchers = () => {
     unsubscribeReliefPitchers = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -60,7 +58,6 @@
 
   const getDroppingPlayers = () => {
     unsubscribeReliefPitchers = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', true)

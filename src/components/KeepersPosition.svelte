@@ -40,7 +40,6 @@
 
   const getCatchers = () => {
     unsubscribeCatchers = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -56,7 +55,6 @@
 
   const getFirstBasemen = () => {
     unsubscribeFirstBasemen = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -72,7 +70,6 @@
 
   const getSecondBasemen = () => {
     unsubscribeSecondBasemen = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -88,7 +85,6 @@
 
   const getThirdBasemen = () => {
     unsubscribeThirdBasemen = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -104,7 +100,6 @@
 
   const getShortstops = () => {
     unsubscribeShortstops = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
@@ -120,7 +115,6 @@
 
   const getOutfielders = () => {
     unsubscribeOutfielders = db.collection("players")
-      .where('prospect', '==', false)
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
