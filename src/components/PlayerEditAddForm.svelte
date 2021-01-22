@@ -212,6 +212,8 @@
   <div class="action-buttons">
     <Button type="secondary" on:click={() => dispatch('cancel')}>Cancel</Button>
     <Button on:click={isEdit ? editPlayer : createPlayer}>Save</Button>
-    <Button type="danger" on:click={() => deletePlayer(player)}>Delete</Button>
+    {#if isEdit}
+      <Button type="danger" on:click={() => deletePlayer(player)}>Delete</Button>
+    {/if}
   </div>
 </div>

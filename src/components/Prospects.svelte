@@ -4,16 +4,25 @@
   import PlayerEdit from "./PlayerEdit.svelte";
   import IconPlus from "./IconPlus.svelte";
   import IconEdit from "./IconEdit.svelte";
+  import ProspectList from "./ProspectList.svelte";
 
-  let players = [];
-  let unsubscribe;
+  let highSchoolProspects = [];
+  let collegiateProspects = [];
+  let proProspects = [];
   let selectedPlayer = null;
   let showAddPlayer = false;
   let showEditPlayer = false;
+  let unsubscribeCollegiates;
+  let unsubscribeHighSchoolers;
+  let unsubscribePros;
 
   onMount(() => getPlayers());
 
-  onDestroy(() => unsubscribe());
+  onDestroy(() => {
+    unsubscribeCollegiates();
+    unsubscribeHighSchoolers();
+    unsubscribePros();
+  });
 
   const displayEditForm = player => {
     selectedPlayer = player;
@@ -21,17 +30,45 @@
   };
 
   const getPlayers = () => {
-    unsubscribe = db.collection("players")
+    unsubscribeCollegiates = db.collection("players")
       .where("prospect", '==', true)
       .where('available', '==', true)
+      .where('inHighSchool', '==', true)
       .onSnapshot(snapshot => {
-        players = snapshot.docs.map(doc => {
+        highSchoolProspects = snapshot.docs.map(doc => {
           let player = doc.data();
           player.id = doc.id;
           return player;
         });
-        sortPlayers("baseballAmerica");
-      });
+        highSchoolProspects = sortPlayers(highSchoolProspects, "baseballAmerica");
+    });
+
+    unsubscribeHighSchoolers = db.collection("players")
+      .where("prospect", '==', true)
+      .where('available', '==', true)
+      .where('inCollege', '==', true)
+      .onSnapshot(snapshot => {
+        collegiateProspects = snapshot.docs.map(doc => {
+          let player = doc.data();
+          player.id = doc.id;
+          return player;
+        });
+        collegiateProspects = sortPlayers(collegiateProspects, "baseballAmerica");
+    });
+
+    unsubscribePros = db.collection("players")
+      .where("prospect", '==', true)
+      .where('available', '==', true)
+      .where('inHighSchool', '==', false)
+      .where('inCollege', '==', false)
+      .onSnapshot(snapshot => {
+        proProspects = snapshot.docs.map(doc => {
+          let player = doc.data();
+          player.id = doc.id;
+          return player;
+        });
+        proProspects = sortPlayers(proProspects, "baseballAmerica");
+    });
   };
 
   // const rankingAve = rankings => {
@@ -43,9 +80,9 @@
   //   return Math.floor(rnks.reduce((a, b) => a + b, 0) / rnks.length);
   // };
 
-  const sortPlayers = column => {
+  const sortPlayers = (players, column) => {
     // Based on https://stackoverflow.com/a/29829370.
-    players = players.sort((a, b) => {
+    return players.sort((a, b) => {
       return (
         (a.rankings[column] === 0) - (b.rankings[column] === 0) ||
         +(a.rankings[column] > b.rankings[column]) ||
@@ -56,66 +93,27 @@
 </script>
 
 <section class="page-column large">
-  <header>
-    <h3>Top 100 Available Prospects</h3>
-    <div class="action-icon" on:click={() => (showAddPlayer = true)}>
-      <IconPlus />
-    </div>
-  </header>
+  <ProspectList 
+    prospects={proProspects}
+    listTitle="Available Pro Prospects"
+    on:showAddPlayer={() => (showAddPlayer = true)}
+    on:displayEditForm={(e) => displayEditForm(e.detail)}
+    on:sortPlayers={(e) => proProspects = sortPlayers(proProspects, e.detail)} />
 
-  <table class="player-list">
-    <thead>
-      <tr>
-        <th class="small-cell">Pos</th>
-        <th class="small-cell">Team</th>
-        <th class="spacer" />
-        <th class="text-left medium-cell">Name</th>
-        <th class="small-cell sort" on:click={() => sortPlayers('mlb')}>MLB</th>
-        <th
-          class="small-cell sort"
-          on:click={() => sortPlayers('baseballAmerica')}>
-          BA
-        </th>
-        <th
-          class="small-cell sort"
-          on:click={() => sortPlayers('baseballProspectus')}>
-          BP
-        </th>
-        <th
-          class="small-cell sort"
-          on:click={() => sortPlayers('fanGraphs')}>
-          FG
-        </th>
-        <!-- <th class="small-cell">AVE</th> -->
-      </tr>
-    </thead>
-    <tbody>
-      {#each players as player}
-        <tr class="player" class:bold={player.watchlist}>
-          <td class="small-cell">{player.position.join()}</td>
-          <td class="small-cell">{player.team}</td>
-          <td class="spacer" />
-          <td class="text-left medium-cell">{player.lname}, {player.fname}</td>
-          <td class="small-cell blue" alt="MLB Pipeline Top 100">
-            {player.rankings.mlb === 0 ? '--' : player.rankings.mlb}
-          </td>
-          <td class="small-cell red">
-            {player.rankings.baseballAmerica === 0 ? '--' : player.rankings.baseballAmerica}
-          </td>
-          <td class="small-cell orange">
-            {player.rankings.baseballProspectus === 0 ? '--' : player.rankings.baseballProspectus}
-          </td>
-          <td class="small-cell green">
-            {player.rankings.fanGraphs === 0 ? '--' : player.rankings.fanGraphs}
-          </td>
-          <!-- <td class="small-cell">{rankingAve(player.rankings)}</td> -->
-          <td class="small-cell action-icon" on:click={displayEditForm(player)}>
-            <IconEdit />
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
+  <ProspectList 
+    prospects={collegiateProspects}
+    listTitle="Available College Prospects"
+    on:showAddPlayer={() => (showAddPlayer = true)}
+    on:displayEditForm={(e) => displayEditForm(e.detail)}
+    on:sortPlayers={(e) => collegiateProspects = sortPlayers(collegiateProspects, e.detail)} />
+
+  <ProspectList 
+    prospects={highSchoolProspects}
+    listTitle="Available High School Prospects"
+    on:showAddPlayer={() => (showAddPlayer = true)}
+    on:displayEditForm={(e) => displayEditForm(e.detail)}
+    on:sortPlayers={(e) => highSchoolProspects = sortPlayers(highSchoolProspects, e.detail)} />
+
 </section>
 
 {#if showAddPlayer}

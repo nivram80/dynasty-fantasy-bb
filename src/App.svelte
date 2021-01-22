@@ -89,6 +89,10 @@
     height: 22px;
   }
 
+  :global(.player-list) {
+    margin-bottom: 20px;
+  }
+
   :global(.player .action-icon) {
     display: none;
   }
