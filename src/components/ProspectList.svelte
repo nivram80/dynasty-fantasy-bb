@@ -19,31 +19,31 @@
 <table class="player-list">
   <thead>
     <tr>
-      <th class="small-cell">Pos</th>
-      <th class="small-cell">Team</th>
+      <th class="small-cell sort" on:click={() => dispatch('sortByAlpha', 'position')}>Pos</th>
+      <th class="small-cell sort" on:click={() => dispatch('sortByAlpha', 'team')}>Team</th>
       <th class="spacer" />
-      <th class="text-left medium-cell">Name</th>
+      <th class="text-left medium-cell sort" on:click={() => dispatch('sortByAlpha', 'lname')}>Name</th>
       <th class="small-cell sort" 
         title="MLB Pipeline"
-        on:click={() => dispatch('sortPlayers', 'mlb')}>
+        on:click={() => dispatch('sortByRankings', 'mlb')}>
         MLB
       </th>
       <th
         class="small-cell sort"
         title="Baseball America"
-        on:click={() => dispatch('sortPlayers', 'baseballAmerica')}>
+        on:click={() => dispatch('sortByRankings', 'baseballAmerica')}>
         BA
       </th>
       <th
         class="small-cell sort"
         title="Baseball Prospectus"
-        on:click={() => dispatch('sortPlayers', 'baseballProspectus')}>
+        on:click={() => dispatch('sortByRankings', 'baseballProspectus')}>
         BP
       </th>
       <th
         class="small-cell sort"
         title="Fan Graphs"
-        on:click={() => dispatch('sortPlayers', 'fanGraphs')}>
+        on:click={() => dispatch('sortByRankings', 'fanGraphs')}>
         FG
       </th>
       <!-- <th class="small-cell">AVE</th> -->
@@ -57,8 +57,6 @@
         <td class="spacer" />
         <td class="text-left medium-cell">
           {p.lname}, {p.fname}
-          {#if p.inHighSchool}<span>+</span>{/if}
-          {#if p.inCollege}<span>++</span>{/if}
         </td>
         <td class="small-cell blue" alt="MLB Pipeline Top 100">
           {p.rankings.mlb === 0 ? '--' : p.rankings.mlb}

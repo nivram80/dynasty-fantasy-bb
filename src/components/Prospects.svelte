@@ -40,7 +40,7 @@
           player.id = doc.id;
           return player;
         });
-        highSchoolProspects = sortPlayers(highSchoolProspects, "baseballAmerica");
+        highSchoolProspects = sortByRankings(highSchoolProspects, "baseballAmerica");
     });
 
     unsubscribeHighSchoolers = db.collection("players")
@@ -53,7 +53,7 @@
           player.id = doc.id;
           return player;
         });
-        collegiateProspects = sortPlayers(collegiateProspects, "baseballAmerica");
+        collegiateProspects = sortByRankings(collegiateProspects, "baseballAmerica");
     });
 
     unsubscribePros = db.collection("players")
@@ -67,7 +67,7 @@
           player.id = doc.id;
           return player;
         });
-        proProspects = sortPlayers(proProspects, "baseballAmerica");
+        proProspects = sortByRankings(proProspects, "baseballAmerica");
     });
   };
 
@@ -80,7 +80,17 @@
   //   return Math.floor(rnks.reduce((a, b) => a + b, 0) / rnks.length);
   // };
 
-  const sortPlayers = (players, column) => {
+  const sortByAlpha = (players, column) => {
+    return players.sort((a, b) => {
+      return (
+        (a[column] === null) - (b[column] === null) ||
+        +(a[column] > b[column]) ||
+        -(a[column] < b[column])
+      );
+    });
+  }
+
+  const sortByRankings = (players, column) => {
     // Based on https://stackoverflow.com/a/29829370.
     return players.sort((a, b) => {
       return (
@@ -98,21 +108,24 @@
     listTitle="Available Pro Prospects"
     on:showAddPlayer={() => (showAddPlayer = true)}
     on:displayEditForm={(e) => displayEditForm(e.detail)}
-    on:sortPlayers={(e) => proProspects = sortPlayers(proProspects, e.detail)} />
+    on:sortByRankings={(e) => proProspects = sortByRankings(proProspects, e.detail)}
+    on:sortByAlpha={(e) => proProspects = sortByAlpha(proProspects, e.detail)} />
 
   <ProspectList 
     prospects={collegiateProspects}
     listTitle="Available College Prospects"
     on:showAddPlayer={() => (showAddPlayer = true)}
     on:displayEditForm={(e) => displayEditForm(e.detail)}
-    on:sortPlayers={(e) => collegiateProspects = sortPlayers(collegiateProspects, e.detail)} />
+    on:sortByRankings={(e) => collegiateProspects = sortByRankings(collegiateProspects, e.detail)}
+    on:sortByAlpha={(e) => collegiateProspects = sortByAlpha(collegiateProspects, e.detail)} />
 
   <ProspectList 
     prospects={highSchoolProspects}
     listTitle="Available High School Prospects"
     on:showAddPlayer={() => (showAddPlayer = true)}
     on:displayEditForm={(e) => displayEditForm(e.detail)}
-    on:sortPlayers={(e) => highSchoolProspects = sortPlayers(highSchoolProspects, e.detail)} />
+    on:sortByRankings={(e) => highSchoolProspects = sortByRankings(highSchoolProspects, e.detail)}
+    on:sortByAlpha={(e) => highSchoolProspects = sortByAlpha(highSchoolProspects, e.detail)} />
 
 </section>
 

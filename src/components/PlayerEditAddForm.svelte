@@ -12,7 +12,7 @@
   export let player = {
     fname: '',
     lname: '',
-    team: '',
+    team: 'N/A',
     position: '',
     own: false,
     available: true,
