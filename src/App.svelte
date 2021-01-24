@@ -1,17 +1,49 @@
 <script>
+  import { onMount } from 'svelte';
 	import Prospects from './components/Prospects.svelte';
   import FreeAgents from './components/FreeAgents.svelte';
   import SelectStyles from './components/SelectStyles.svelte';
   import KeepersPosition from './components/KeepersPosition.svelte';
   import KeepersPitchers from './components/KeepersPitchers.svelte';
+  import Dialog from './components/Dialog.svelte';
+  import Card from './components/Card.svelte';
+  import Login from './components/Login.svelte';
+
+  let isLoggedIn;
+
+  onMount(() => {
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        isLoggedIn = true;
+      } else {
+        isLoggedIn = false;
+      }
+    });
+  });
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      isLoggedIn = false;
+    }).catch((error) => {
+      console.error(error.code, error.message);
+    });
+  }
 </script>
 
-<main>
-	<Prospects />
-  <FreeAgents />
-  <KeepersPosition />
-  <KeepersPitchers />
-</main>
+{#if isLoggedIn}
+  <main>
+    <Prospects on:signOut={signOut} />
+    <FreeAgents />
+    <KeepersPosition />
+    <KeepersPitchers />
+  </main>
+{:else}
+  <Dialog>
+    <Card>
+      <Login />
+    </Card>
+  </Dialog>
+{/if}
 
 <SelectStyles />
 

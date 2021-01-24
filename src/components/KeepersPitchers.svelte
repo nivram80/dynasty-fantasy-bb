@@ -57,7 +57,7 @@
   };
 
   const getDroppingPlayers = () => {
-    unsubscribeReliefPitchers = db.collection("players")
+    unsubscribeDroppingPlayers = db.collection("players")
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', true)
@@ -89,7 +89,7 @@
     </div>
   </header>
 
-  <PlayerList players={players.droppingPlayers} label="NEED TO DROP 7" />
+  <PlayerList players={players.droppingPlayers} label="NEED TO DROP 6" />
 </section>
 
 {#if showAddPlayer}

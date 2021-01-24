@@ -1,9 +1,7 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, createEventDispatcher } from "svelte";
   import PlayerAdd from "./PlayerAdd.svelte";
   import PlayerEdit from "./PlayerEdit.svelte";
-  import IconPlus from "./IconPlus.svelte";
-  import IconEdit from "./IconEdit.svelte";
   import ProspectList from "./ProspectList.svelte";
 
   let highSchoolProspects = [];
@@ -15,6 +13,8 @@
   let unsubscribeCollegiates;
   let unsubscribeHighSchoolers;
   let unsubscribePros;
+
+  const dispatch = createEventDispatcher();
 
   onMount(() => getPlayers());
 
@@ -81,6 +81,7 @@
   // };
 
   const sortByAlpha = (players, column) => {
+    // Based on https://stackoverflow.com/a/29829370.
     return players.sort((a, b) => {
       return (
         (a[column] === null) - (b[column] === null) ||
@@ -127,6 +128,7 @@
     on:sortByRankings={(e) => highSchoolProspects = sortByRankings(highSchoolProspects, e.detail)}
     on:sortByAlpha={(e) => highSchoolProspects = sortByAlpha(highSchoolProspects, e.detail)} />
 
+    <div class="link" on:click={() => dispatch('signOut')}>Sign Out</div>
 </section>
 
 {#if showAddPlayer}
@@ -138,3 +140,9 @@
     player={selectedPlayer}
     on:cancel={() => (showEditPlayer = false)} />
 {/if}
+
+<style>
+  .link {
+    cursor: pointer;
+  }
+</style>
