@@ -89,7 +89,7 @@
     </div>
   </header>
 
-  <PlayerList players={players.droppingPlayers} label="NEED TO DROP 6" />
+  <PlayerList players={players.droppingPlayers} label="NEED TO DROP 0" />
 </section>
 
 {#if showAddPlayer}
