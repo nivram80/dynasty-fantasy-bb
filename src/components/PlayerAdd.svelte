@@ -4,11 +4,13 @@
   import PlayerEditAddForm from './PlayerEditAddForm.svelte';
 
   export let prospect = false;
+  export let own = false;
+  export let available = true;
 </script>
 
 <Dialog>
   <Card>
     <h3>Add Player</h3>
-    <PlayerEditAddForm {prospect} on:cancel />
+    <PlayerEditAddForm {prospect} {own} {available} on:cancel />
   </Card>
 </Dialog>

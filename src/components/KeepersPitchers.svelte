@@ -1,8 +1,8 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
-  import IconPlus from "./IconPlus.svelte";
-  import PlayerList from "./PlayerList.svelte";
-  import PlayerAdd from "./PlayerAdd.svelte";
+  import { onMount, onDestroy } from 'svelte';
+  import IconPlus from './IconPlus.svelte';
+  import PlayerList from './PlayerList.svelte';
+  import PlayerAdd from './PlayerAdd.svelte';
 
   let players = {
     startingPitchers: [],
@@ -27,13 +27,14 @@
   });
 
   const getStartingPitchers = () => {
-    unsubscribeStartingPitchers = db.collection("players")
+    unsubscribeStartingPitchers = db
+      .collection('players')
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
       .where('position', 'array-contains-any', ['SP', 'RHP', 'LHP', 'P'])
-      .onSnapshot(snapshot => {
-        players['startingPitchers'] = snapshot.docs.map(doc => {
+      .onSnapshot((snapshot) => {
+        players['startingPitchers'] = snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
@@ -42,13 +43,14 @@
   };
 
   const getReliefPitchers = () => {
-    unsubscribeReliefPitchers = db.collection("players")
+    unsubscribeReliefPitchers = db
+      .collection('players')
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', false)
       .where('position', 'array-contains', 'RP')
-      .onSnapshot(snapshot => {
-        players['reliefPitchers'] = snapshot.docs.map(doc => {
+      .onSnapshot((snapshot) => {
+        players['reliefPitchers'] = snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
@@ -57,12 +59,13 @@
   };
 
   const getDroppingPlayers = () => {
-    unsubscribeDroppingPlayers = db.collection("players")
+    unsubscribeDroppingPlayers = db
+      .collection('players')
       .where('available', '==', false)
       .where('own', '==', true)
       .where('dropping', '==', true)
-      .onSnapshot(snapshot => {
-        players['droppingPlayers'] = snapshot.docs.map(doc => {
+      .onSnapshot((snapshot) => {
+        players['droppingPlayers'] = snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
@@ -93,5 +96,5 @@
 </section>
 
 {#if showAddPlayer}
-  <PlayerAdd on:cancel={() => (showAddPlayer = false)} />
+  <PlayerAdd on:cancel={() => (showAddPlayer = false)} own available={false} />
 {/if}
