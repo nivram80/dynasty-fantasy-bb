@@ -38,6 +38,20 @@
     unsubscribeOutfielders();
   });
 
+  const moveProspectsToEnd = (players) => {
+    let mlbPlayers = [];
+    let prospects = [];
+    players.forEach((p) => {
+      if (p.prospect) {
+        prospects.push(p);
+      } else {
+        mlbPlayers.push(p);
+      }
+    });
+    let sortedPlayers = [...mlbPlayers, ...prospects];
+    return sortedPlayers;
+  }
+
   const getCatchers = () => {
     unsubscribeCatchers = db.collection("players")
       .where('available', '==', false)
@@ -50,6 +64,7 @@
           player.id = doc.id;
           return player;
         });
+        players['catchers'] = moveProspectsToEnd(players['catchers']);
       });
   };
 
@@ -65,6 +80,7 @@
           player.id = doc.id;
           return player;
         });
+        players['firstBasemen'] = moveProspectsToEnd(players['firstBasemen']);
       });
   };
 
@@ -80,6 +96,7 @@
           player.id = doc.id;
           return player;
         });
+        players['secondBasemen'] = moveProspectsToEnd(players['secondBasemen']);
       });
   };
 
@@ -95,6 +112,7 @@
           player.id = doc.id;
           return player;
         });
+        players['thirdBasemen'] = moveProspectsToEnd(players['thirdBasemen']);
       });
   };
 
@@ -110,6 +128,7 @@
           player.id = doc.id;
           return player;
         });
+        players['shortstops'] = moveProspectsToEnd(players['shortstops']);
       });
   };
 
@@ -125,6 +144,7 @@
           player.id = doc.id;
           return player;
         });
+        players['outfielders'] = moveProspectsToEnd(players['outfielders']);
       });
   };
 </script>

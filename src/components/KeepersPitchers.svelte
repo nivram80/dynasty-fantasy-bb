@@ -26,6 +26,20 @@
     unsubscribeDroppingPlayers();
   });
 
+  const moveProspectsToEnd = (players) => {
+    let mlbPlayers = [];
+    let prospects = [];
+    players.forEach((p) => {
+      if (p.prospect) {
+        prospects.push(p);
+      } else {
+        mlbPlayers.push(p);
+      }
+    });
+    let sortedPlayers = [...mlbPlayers, ...prospects];
+    return sortedPlayers;
+  }
+
   const getStartingPitchers = () => {
     unsubscribeStartingPitchers = db.collection("players")
       .where('available', '==', false)
@@ -38,6 +52,7 @@
           player.id = doc.id;
           return player;
         });
+        players['startingPitchers'] = moveProspectsToEnd(players['startingPitchers']);
       });
   };
 
@@ -53,6 +68,7 @@
           player.id = doc.id;
           return player;
         });
+        players['reliefPitchers'] = moveProspectsToEnd(players['reliefPitchers']);
       });
   };
 
