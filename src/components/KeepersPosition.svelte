@@ -60,12 +60,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', 'C')
       .onSnapshot((snapshot) => {
-        players['catchers'] = snapshot.docs.map((doc) => {
+        players['catchers'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['catchers'] = moveProspectsToEnd(players['catchers']);
+        }));
       });
   };
 
@@ -77,12 +76,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', '1B')
       .onSnapshot((snapshot) => {
-        players['firstBasemen'] = snapshot.docs.map((doc) => {
+        players['firstBasemen'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['firstBasemen'] = moveProspectsToEnd(players['firstBasemen']);
+        }));
       });
   };
 
@@ -94,12 +92,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', '2B')
       .onSnapshot((snapshot) => {
-        players['secondBasemen'] = snapshot.docs.map((doc) => {
+        players['secondBasemen'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['secondBasemen'] = moveProspectsToEnd(players['secondBasemen']);
+        }));
       });
   };
 
@@ -111,12 +108,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', '3B')
       .onSnapshot((snapshot) => {
-        players['thirdBasemen'] = snapshot.docs.map((doc) => {
+        players['thirdBasemen'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['thirdBasemen'] = moveProspectsToEnd(players['thirdBasemen']);
+        }));
       });
   };
 
@@ -128,12 +124,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', 'SS')
       .onSnapshot((snapshot) => {
-        players['shortstops'] = snapshot.docs.map((doc) => {
+        players['shortstops'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['shortstops'] = moveProspectsToEnd(players['shortstops']);
+        }));
       });
   };
 
@@ -145,12 +140,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains-any', ['OF', 'LF', 'CF', 'RF'])
       .onSnapshot((snapshot) => {
-        players['outfielders'] = snapshot.docs.map((doc) => {
+        players['outfielders'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['outfielders'] = moveProspectsToEnd(players['outfielders']);
+        }));
       });
   };
 </script>

@@ -48,12 +48,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains-any', ['SP', 'RHP', 'LHP', 'P'])
       .onSnapshot((snapshot) => {
-        players['startingPitchers'] = snapshot.docs.map((doc) => {
+        players['startingPitchers'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['startingPitchers'] = moveProspectsToEnd(players['startingPitchers']);
+        }));
       });
   };
 
@@ -65,12 +64,11 @@
       .where('dropping', '==', false)
       .where('position', 'array-contains', 'RP')
       .onSnapshot((snapshot) => {
-        players['reliefPitchers'] = snapshot.docs.map((doc) => {
+        players['reliefPitchers'] = moveProspectsToEnd(snapshot.docs.map((doc) => {
           let player = doc.data();
           player.id = doc.id;
           return player;
-        });
-        players['reliefPitchers'] = moveProspectsToEnd(players['reliefPitchers']);
+        }));
       });
   };
 
