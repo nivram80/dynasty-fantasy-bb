@@ -24,6 +24,9 @@ export default {
 				css.write('public/build/bundle.css');
 			}
 		}),
+		serve({
+			port: 3000,
+		}),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
